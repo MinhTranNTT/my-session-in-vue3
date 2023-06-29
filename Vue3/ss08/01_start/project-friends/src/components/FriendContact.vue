@@ -1,6 +1,8 @@
 <template>
   <li>
-    <h2>{{ name }} {{ friendIsFavorite === "1" ? "(Favorite)" : "" }}</h2>
+    <!-- <h2>{{ name }} {{ friendIsFavorite === "1" ? "(Favorite)" : "" }}</h2> -->
+    <!-- <h2>{{ name }} {{ friendIsFavorite ? "(Favorite)" : "" }}</h2> -->
+    <h2>{{ name }} {{ isFavorite ? "(Favorite)" : "" }}</h2>
     <button @click="toggleFavorite()">Toggle Favorite</button>
     <button @click="toggleDetails()">
       {{ detailsAreVisible ? "Hide" : "Show" }} Details
@@ -16,6 +18,10 @@
 export default {
   // props: ["name", "phoneNumber", "emailAddress", "isFavorite"],
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     // name: String,  => It's okay
     name: {
       type: String,
@@ -29,38 +35,48 @@ export default {
       type: String,
       required: true,
     },
+    // isFavorite: {
+    //   type: String,
+    //   required: false,
+    //   default: "0",
+    //   validator: function (value) {
+    //     return value === "1" || value === "0";
+    //   },
+    //   // default: function () {},  =>> is okay
+    // },
     isFavorite: {
-      type: String,
+      type: Boolean,
       required: false,
-      default: "0",
-      validator: function (value) {
-        return value === "1" || value === "0";
-      },
+      default: false,
+      // validator: function (value) {
+      //   return value === "1" || value === "0";
+      // },
       // default: function () {},  =>> is okay
     },
   },
   data() {
     return {
       detailsAreVisible: false,
-      friendIsFavorite: this.isFavorite,
-      friend: {
-        id: "minh",
-        name: "Minh Tran",
-        phone: "012312312",
-        email: "tvhminh@gmail.com",
-      },
+      // friendIsFavorite: this.isFavorite,
     };
   },
   methods: {
     toggleDetails() {
       this.detailsAreVisible = !this.detailsAreVisible;
     },
+    // toggleFavorite() {
+    //   if (this.friendIsFavorite === "1") {
+    //     this.friendIsFavorite = "0";
+    //   } else {
+    //     this.friendIsFavorite = "1";
+    //   }
+    // },
+
+    // toggleFavorite() {
+    //   this.friendIsFavorite = !this.friendIsFavorite;
+    // },
     toggleFavorite() {
-      if (this.friendIsFavorite === "1") {
-        this.friendIsFavorite = "0";
-      } else {
-        this.friendIsFavorite = "1";
-      }
+      this.$emit("toggle-favorite", this.id);
     },
   },
 };
