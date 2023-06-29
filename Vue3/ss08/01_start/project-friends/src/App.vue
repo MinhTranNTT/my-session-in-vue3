@@ -35,6 +35,9 @@
 
   <section>
     <header><h1>App template</h1></header>
+
+    <new-friend @add-contact="addContactNewFriends"></new-friend>
+
     <ul>
       <friend-contact
         v-for="friend in friends"
@@ -45,6 +48,7 @@
         :email-address="friend.email"
         :is-favorite="friend.isFavorite"
         @toggle-favorite="toggleFavoriteStatus"
+        @delete-contact="deleteContact"
       />
     </ul>
   </section>
@@ -81,6 +85,20 @@ export default {
       );
       identyFriend.isFavorite = !identyFriend.isFavorite;
       console.log(identyFriend);
+    },
+    addContactNewFriends(name, phone, email) {
+      const newFriendContact = {
+        id: new Date().toISOString(),
+        name: name,
+        phone: phone,
+        email: email,
+        isFavorite: false,
+      };
+
+      this.friends.push(newFriendContact);
+    },
+    deleteContact(contactId) {
+      this.friends = this.friends.filter((friend) => friend.id !== contactId);
     },
   },
 };

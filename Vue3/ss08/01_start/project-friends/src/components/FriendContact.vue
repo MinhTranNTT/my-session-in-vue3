@@ -11,12 +11,15 @@
       <li><strong>Phone: </strong> {{ phoneNumber }}</li>
       <li><strong>Email: </strong> {{ emailAddress }}</li>
     </ul>
+
+    <button @click="$emit('delete-contact', id)">Delete</button>
   </li>
 </template>
 
 <script>
 export default {
   // props: ["name", "phoneNumber", "emailAddress", "isFavorite"],
+  emits: ["delete-contact"],
   props: {
     id: {
       type: String,
@@ -113,7 +116,8 @@ header {
   list-style: none;
 }
 
-#app li {
+#app li,
+#app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
